@@ -13,4 +13,8 @@ export class TypeService {
       },
     });
   }
+
+  async getAllTypes(): Promise<Type[]> {
+    return this.prisma.type.findMany();
+  }
 }
