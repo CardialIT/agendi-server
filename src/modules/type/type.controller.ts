@@ -10,4 +10,9 @@ export class TypeController {
   async createServiceType(@Body('name') name: string): Promise<Type> {
     return this.TypeService.createType(name);
   }
+
+  @Get('types')
+  async getAllServiceTypes(): Promise<Type[]> {
+    return this.TypeService.getAllTypes();
+  }
 }
