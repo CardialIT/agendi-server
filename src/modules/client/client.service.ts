@@ -33,4 +33,8 @@ export class ClientService {
 
     return client
   }
+
+  async findAll() {
+    return this.prisma.client.findMany();
+  }
 }
