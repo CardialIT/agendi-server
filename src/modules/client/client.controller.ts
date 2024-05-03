@@ -11,5 +11,8 @@ export class ClientController {
     return this.clientService.create(data);
   }
 
-  
+  @Get('clients')
+  async findAll() {
+    return this.clientService.findAll();
+  }
 }
