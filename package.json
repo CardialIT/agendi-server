@@ -27,7 +27,7 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/sequelize": "^10.0.1",
-    "@prisma/client": "^5.12.1",
+    "@prisma/client": "^5.13.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.11.5",
     "pg-hstore": "^2.3.4",
