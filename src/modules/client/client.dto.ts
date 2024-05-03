@@ -1,5 +1,5 @@
 export type ClientDTO = {
-  nameClient: string
-  emailClient: string
-  clientPhone: string
+  name: string
+  email: string
+  phone: string
 }
