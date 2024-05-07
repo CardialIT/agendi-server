@@ -8,11 +8,11 @@ export class TypeController {
 
   @Post('type')
   async createServiceType(@Body('name') name: string): Promise<Type> {
-    return this.TypeService.createType(name);
+    return this.TypeService.create(name);
   }
 
   @Get('types')
   async getAllServiceTypes(): Promise<Type[]> {
-    return this.TypeService.getAllTypes();
+    return this.TypeService.getAll();
   }
 }
