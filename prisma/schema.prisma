@@ -10,37 +10,38 @@ datasource db {
 }
 
 model Professional {
-  id Int @id @default(autoincrement())
-  nameProfessional String 
-  profession String
+  id               Int    @id @default(autoincrement())
+  nameProfessional String
+  profession       String
+
   @@map("professionals")
 }
 
 model Type {
-  id Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
   name String
 }
 
 model Client {
-  id Int @id @default(autoincrement())
-  name String @unique
+  id    Int    @id @default(autoincrement())
+  name  String @unique
   email String
   phone String
 }
 
-model Scheduling_adm{
-id Int @id @default(autoincrement())
-name String @unique
-clients String
-scheduling_day String
-available_times String
+model Scheduling_adm {
+  id              Int    @id @default(autoincrement())
+  name            String @unique
+  clients         String
+  scheduling_day  String
+  available_times String
 }
 
 model Scheduling {
-id Int @id @default(autoincrement())
-profissional String
-type String
-client String 
-date String
-hour String      
+  id           Int    @id @default(autoincrement())
+  profissional String
+  type         String
+  client       String
+  date         String
+  hour         String
 }
