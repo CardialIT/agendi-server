@@ -7,12 +7,12 @@ import { ProfessionalsDTO } from 'src/modules/professionals/professionals.dto';
 export class ProfessionalsController {
   constructor(private readonly professionalsService: ProfessionalsService) {}
 
-  @Post()
+  @Post('/create')
   async create(@Body() data: ProfessionalsDTO) {
     return this.professionalsService.create(data);
   }
 
-  @Get()
+  @Get('/listAll')
   async findAll() {
     return this.professionalsService.findAll();
   }
