@@ -10,7 +10,7 @@ export class ProfessionalsService {
   async create(data: ProfessionalsDTO) {
     const professionalExists = await this.prisma.professional.findFirst({
       where: {
-        nameProfessional: data.nameProfessional,
+        nameProfessional: data.name,
         profession: data.profession,
       },
     });
@@ -19,13 +19,13 @@ export class ProfessionalsService {
       throw new Error('Agendamento já existe!');
     }
 
-    if (!data.nameProfessional || !data.profession) {
+    if (!data.name || !data.profession) {
       throw new Error('Dados do Profissional incompletos!');
     }
 
     const professional = await this.prisma.professional.create({
       data: {
-        nameProfessional: data.nameProfessional,
+        nameProfessional: data.name,
         profession: data.profession,
       },
     });
