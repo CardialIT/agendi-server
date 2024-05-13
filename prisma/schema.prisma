@@ -29,14 +29,6 @@ model Client {
   phone String
 }
 
-model Scheduling_adm {
-  id              Int    @id @default(autoincrement())
-  name            String @unique
-  clients         String
-  scheduling_day  String
-  available_times String
-}
-
 model Scheduling {
   id           Int    @id @default(autoincrement())
   profissional String
