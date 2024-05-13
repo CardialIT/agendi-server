@@ -13,6 +13,7 @@ model Professional {
   id               Int    @id @default(autoincrement())
   nameProfessional String
   profession       String
+  schedule         Scheduling[]
 
   @@map("professionals")
 }
@@ -20,6 +21,7 @@ model Professional {
 model Type {
   id   Int    @id @default(autoincrement())
   name String
+  schedule Scheduling[]
 }
 
 model Client {
@@ -27,13 +29,17 @@ model Client {
   name  String @unique
   email String
   phone String
+  schedule Scheduling[]
 }
 
 model Scheduling {
-  id           Int    @id @default(autoincrement())
-  profissional String
-  type         String
-  client       String
-  date         String
-  hour         String
+  id             Int          @id @default(autoincrement())
+  professional   Professional @relation(fields: [professionalId], references: [id])
+  professionalId Int
+  type           Type        @relation(fields: [typeId], references: [id])
+  typeId         Int
+  client         Client   @relation(fields: [clientId], references: [id])
+  clientId       Int
+  scheduleDate   DateTime
+  schedulingDate DateTime
 }
