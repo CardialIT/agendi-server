@@ -3,16 +3,16 @@ import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { SchedulingService } from './scheduling.service';
 import { SchedulingDTO } from './scheduling.dto';
 
-@Controller('scheduling')
+@Controller('schedulings')
 export class SchedulingController {
   constructor(private readonly schedulingService: SchedulingService) {}
 
-  @Post()
+  @Post('/create')
   async create(@Body() data: SchedulingDTO) {
     return this.schedulingService.create(data);
   }
 
-  @Get()
+  @Get('/listAll')
   async findAll() {
     return this.schedulingService.findAll();
   }
