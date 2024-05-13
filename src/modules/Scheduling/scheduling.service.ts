@@ -40,6 +40,12 @@ export class SchedulingService {
   }
 
   async findAll() {
-    return this.prisma.scheduling.findMany();
+    return this.prisma.scheduling.findMany({
+      include: {
+        client: true,
+        professional: true,
+        type: true
+      }
+    });
   }
 }
