@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { SchedulingService } from './scheduling.service';
 import { SchedulingDTO } from './scheduling.dto';
 
