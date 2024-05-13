@@ -1,5 +1,5 @@
 /* eslint-disable */
 export type ProfessionalsDTO = {
-  name: string;
+  nameProfessional: string;
   profession: string;
 };
