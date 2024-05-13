@@ -8,37 +8,31 @@ export class SchedulingService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: SchedulingDTO) {
+    if (!data.professionalId || !data.typeId || !data.clientId || !data.scheduleDate || !data.schedulingDate) {
+      throw new Error('Dados do agendamento incompletos');
+    }
+
     const schedulingExists = await this.prisma.scheduling.findFirst({
       where: {
-        profissional: data.profissional,
-        type: data.type,
-        client: data.client,
-        date: data.date,
-        hour: data.hour,
+        professionalId: data.professionalId,
+        typeId: data.typeId,
+        clientId: data.clientId,
+        scheduleDate: data.scheduleDate,
+        schedulingDate: data.schedulingDate
       },
     });
 
     if (schedulingExists) {
-      throw new Error('Agendamento já existe!');
-    }
-
-    if (
-      !data.profissional ||
-      !data.type ||
-      !data.client ||
-      !data.date ||
-      !data.hour
-    ) {
-      throw new Error('Dados de agendamento incompletos!');
+      throw new Error('Agendamento já existe');
     }
 
     const scheduling = await this.prisma.scheduling.create({
       data: {
-        profissional: data.profissional,
-        type: data.type,
-        client: data.client,
-        date: data.date,
-        hour: data.hour,
+        professionalId: data.professionalId,
+        typeId: data.typeId,
+        clientId: data.clientId,
+        scheduleDate: data.scheduleDate,
+        schedulingDate: data.schedulingDate
       },
     });
 
