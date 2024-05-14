@@ -8,7 +8,7 @@ export class SchedulingService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: SchedulingDTO) {
-    if (!data.professionalId || !data.typeId || !data.clientId || !data.scheduleDate || !data.schedulingDate) {
+    if (!data.professionalId || !data.typeId || !data.clientId || !data.scheduleDate) {
       throw new Error('Dados do agendamento incompletos');
     }
 
@@ -18,7 +18,6 @@ export class SchedulingService {
         typeId: data.typeId,
         clientId: data.clientId,
         scheduleDate: data.scheduleDate,
-        schedulingDate: data.schedulingDate
       },
     });
 
@@ -32,7 +31,6 @@ export class SchedulingService {
         typeId: data.typeId,
         clientId: data.clientId,
         scheduleDate: data.scheduleDate,
-        schedulingDate: data.schedulingDate
       },
     });
 
