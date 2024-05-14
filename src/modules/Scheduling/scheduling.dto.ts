@@ -5,5 +5,4 @@ export type SchedulingDTO = {
   typeId: number;
   clientId: number;
   scheduleDate: Date;
-  schedulingDate: Date;
 };
