@@ -41,5 +41,5 @@ model Scheduling {
   client         Client   @relation(fields: [clientId], references: [id])
   clientId       Int
   scheduleDate   DateTime
-  schedulingDate DateTime
+  schedulingDate DateTime @default(now())
 }
