@@ -8,24 +8,31 @@ export class ProfessionalsService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: ProfessionalsDTO) {
-    if (!data.nameProfessional || !data.profession) {
-      throw new Error('Dados do Profissional incompletos!');
+    if (!data.userId) {
+      throw new Error('Usuário não informado');
     }
-    
-    const professionalExists = await this.prisma.professional.findFirst({
+
+    if (!data.profession) {
+      throw new Error('Profissão não informada');
+    }
+
+    const userExists = await this.prisma.user.findFirst({
       where: {
-        nameProfessional: data.nameProfessional,
-        profession: data.profession,
+        id: data.userId,
       },
     });
 
-    if (professionalExists) {
-      throw new Error('Agendamento já existe!');
+    if (!userExists) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    if (userExists.role != 2) {
+      throw new Error('Usuário não é um profissional');
     }
 
     const professional = await this.prisma.professional.create({
       data: {
-        nameProfessional: data.nameProfessional,
+        userId: data.userId,
         profession: data.profession,
       },
     });
