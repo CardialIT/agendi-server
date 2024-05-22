@@ -7,34 +7,34 @@ export class ClientService {
   constructor(private prisma: PrismaService) { }
 
   async create(data: ClientDTO) {
-    if (!data.name || !data.email || !data.phone) {
-      throw new Error('Dados do cliente incompletos')
+    if (!data.userId) {
+      throw new Error('Usuário não informado');
     }
 
-    const clientExists = await this.prisma.client.findFirst({
+    const userExists = await this.prisma.user.findFirst({
       where: {
-        name: data.name,
-        email: data.email,
-        phone: data.phone
+        id: data.userId,
       },
     });
 
-    if (clientExists) {
-      throw new Error('Cliente já existe')
+    if (!userExists) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    if (userExists.role != 1) {
+      throw new Error('Usuário não é um cliente');
     }
 
     const client = await this.prisma.client.create({
       data: {
-        name: data.name,
-        email: data.email,
-        phone: data.phone
+        userId: data.userId,
       },
     });
 
-    return client
+    return client;
   }
 
   async findAll() {
-    return this.prisma.client.findMany();
+      return this.prisma.client.findMany();
+    }
   }
-}
