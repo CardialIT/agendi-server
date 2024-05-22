@@ -9,37 +9,49 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-model Professional {
-  id               Int    @id @default(autoincrement())
-  nameProfessional String
-  profession       String
-  schedule         Scheduling[]
-
-  @@map("professionals")
+model User {
+  id            Int           @id @default(autoincrement())
+  name          String
+  email         String
+  phone         String
+  legalId       String        // CPF ou CNPJ
+  role          Int           // 1 - client, 2 - professional | Não há enum para SQLite
+  professional  Professional? @relation("ProfessionalUser")
+  client        Client?       @relation("ClientUser")
 }
 
-model Type {
-  id   Int    @id @default(autoincrement())
-  name String
-  schedule Scheduling[]
+model Professional {
+  id            Int           @id @default(autoincrement())
+  user          User          @relation("ProfessionalUser", fields: [userId], references: [id])
+  userId        Int           @unique
+  profession    String
+  jobTypes      JobType[]
+  schedules     Scheduling[]  @relation("ProfessionalScheduling")
 }
 
 model Client {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  email String
-  phone String
-  schedule Scheduling[]
+  id            Int           @id @default(autoincrement())
+  user          User          @relation("ClientUser", fields: [userId], references: [id])
+  userId        Int           @unique
+  schedules     Scheduling[]  @relation("ClientScheduling")
+}
+
+model JobType {               // Nome mais semântico, facilita a leitura e documentação
+  id            Int           @id @default(autoincrement())
+  name          String
+  professionals Professional[] 
+  schedules     Scheduling[]
 }
 
 model Scheduling {
   id             Int          @id @default(autoincrement())
-  professional   Professional @relation(fields: [professionalId], references: [id])
+  professional   Professional @relation("ProfessionalScheduling", fields: [professionalId], references: [id])
   professionalId Int
-  type           Type        @relation(fields: [typeId], references: [id])
-  typeId         Int
-  client         Client   @relation(fields: [clientId], references: [id])
+  client         Client       @relation("ClientScheduling", fields: [clientId], references: [id])
   clientId       Int
+  jobType        JobType      @relation(fields: [jobTypeId], references: [id])
+  jobTypeId      Int
   scheduleDate   DateTime
-  schedulingDate DateTime @default(now())
+  schedulingDate DateTime     @default(now())
+  status         Int          @default(0) // 0 - Agendado, 1 - Realizado | Não há enum para SQLite
 }
