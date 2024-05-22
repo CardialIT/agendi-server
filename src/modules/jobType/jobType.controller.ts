@@ -1,5 +1,5 @@
 import { Controller, Post, Get, Body } from '@nestjs/common';
-import { JobTypeService } from './type.service';
+import { JobTypeService } from './jobType.service';
 import { JobType } from '@prisma/client';
 
 @Controller('job-types')
