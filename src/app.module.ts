@@ -2,11 +2,11 @@
 import { Module } from '@nestjs/common';
 import { SchedulingModule } from './modules/Scheduling/scheduling.module';
 import { ProfessionalsModule } from './modules/professionals/professionals.module';
-import { TypeModule } from './modules/type/type.module';
+import { JobTypeModule } from './modules/jobType/jobType.module';
 import { ClientModule } from './modules/client/client.module';
 
 @Module({
-  imports: [SchedulingModule, ProfessionalsModule, TypeModule, ClientModule],
+  imports: [SchedulingModule, ProfessionalsModule, JobTypeModule, ClientModule],
   controllers: [],
   providers: [],
 })
