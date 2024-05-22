@@ -1,18 +1,18 @@
 import { Controller, Post, Get, Body } from '@nestjs/common';
-import { TypeService } from './type.service';
-import { Type } from '@prisma/client';
+import { JobTypeService } from './type.service';
+import { JobType } from '@prisma/client';
 
-@Controller('types')
-export class TypeController {
-  constructor(private readonly TypeService: TypeService) {}
+@Controller('job-types')
+export class JobTypeController {
+  constructor(private readonly JobTypeService: JobTypeService) {}
 
   @Post('/create')
-  async createType(@Body('name') name: string): Promise<Type> {
-    return this.TypeService.create(name);
+  async createJobType(@Body('name') name: string): Promise<JobType> {
+    return this.JobTypeService.create(name);
   }
 
   @Get('/listAll')
-  async getAllTypes(): Promise<Type[]> {
-    return this.TypeService.getAll();
+  async getAllJobTypes(): Promise<JobType[]> {
+    return this.JobTypeService.getAll();
   }
 }

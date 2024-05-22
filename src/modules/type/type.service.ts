@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
 
 @Injectable()
-export class TypeService {
+export class JobTypeService {
   constructor(private prisma: PrismaService) {}
 
   async create(name: string) {
@@ -10,26 +10,26 @@ export class TypeService {
       throw new Error('Tipo de serviço sem nome')
     }
 
-    const typeExists = await this.prisma.type.findFirst({
+    const jobTypeExists = await this.prisma.jobType.findFirst({
       where: {
         name: name
       },
     })
 
-    if (typeExists) {
+    if (jobTypeExists) {
       throw new Error('Tipo de serviço já existe!');
     }
 
-    const type = await this.prisma.type.create({
+    const jobType = await this.prisma.jobType.create({
       data: {
         name,
       },
     })
 
-    return type
+    return jobType
   }
 
   async getAll() {
-    return this.prisma.type.findMany();
+    return this.prisma.jobType.findMany();
   }
 }
