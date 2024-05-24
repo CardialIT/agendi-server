@@ -10,4 +10,9 @@ export class UserController {
     async create(@Body() data: UserDTO) {
         return this.userService.create(data);
     }
+
+    @Get('/listAll')
+    async listAll() {
+        return this.userService.findAll();
+    }
 }
