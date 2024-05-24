@@ -1,8 +1,8 @@
 /* eslint-disable */
 
 export type SchedulingDTO = {
-  professionalId: number;
-  typeId: number;
   clientId: number;
+  professionalId: number;
+  jobTypeId: number;
   scheduleDate: Date;
 };
