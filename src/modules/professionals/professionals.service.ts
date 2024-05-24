@@ -43,4 +43,17 @@ export class ProfessionalsService {
   async findAll() {
     return this.prisma.professional.findMany();
   }
+
+  async updateJobTypes(professionalId: number, jobTypeIds: number[]) {
+    const professional = await this.prisma.professional.update({
+      where: { id: professionalId },
+      data: {
+        jobTypes: {
+          set: jobTypeIds.map((id) => ({ id })),
+        },
+      },
+    });
+
+    return professional;
+  }
 }
