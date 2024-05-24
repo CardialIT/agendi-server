@@ -25,7 +25,7 @@ model Professional {
   user          User          @relation("ProfessionalUser", fields: [userId], references: [id])
   userId        Int           @unique
   profession    String
-  jobTypes      JobType[]
+  jobTypes      JobType[]     @relation("ProfessionalJobType")
   schedules     Scheduling[]  @relation("ProfessionalScheduling")
 }
 
@@ -39,7 +39,7 @@ model Client {
 model JobType {               // Nome mais semântico, facilita a leitura e documentação
   id            Int           @id @default(autoincrement())
   name          String
-  professionals Professional[] 
+  professionals Professional[] @relation("ProfessionalJobType")
   schedules     Scheduling[]
 }
 
