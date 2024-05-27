@@ -44,13 +44,15 @@ export class ProfessionalsService {
     return this.prisma.professional.findMany();
   }
 
-  async updateJobTypes(professionalId: number, jobTypeIds: number[]) {
+  async updateJobTypes(professionalId: number, jobType: string) {
+    if (!professionalId || !jobType) {
+      throw new Error('Dados inválidos');
+    }
+
     const professional = await this.prisma.professional.update({
       where: { id: professionalId },
       data: {
-        jobTypes: {
-          set: jobTypeIds.map((id) => ({ id })),
-        },
+        jobType: jobType,
       },
     });
 

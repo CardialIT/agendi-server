@@ -17,11 +17,11 @@ export class ProfessionalsController {
     return this.professionalsService.findAll();
   }
 
-  @Put('/updateJobTypes/:id')
+  @Put('/:id/updateJobTypes/')
   async updateJobTypes(
-    @Param('id') id: number,
+    @Param('id') userId: string,
     @Body() data: UpdateProfessionalJobTypesDTO,
   ) {
-    return this.professionalsService.updateJobTypes(id, data.jobTypeIds);
+    return this.professionalsService.updateJobTypes(parseInt(userId), data.jobType);
   }
 }

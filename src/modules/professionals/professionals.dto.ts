@@ -5,5 +5,5 @@ export type ProfessionalsDTO = {
 };
 
 export type UpdateProfessionalJobTypesDTO = {
-  jobTypeIds: number[];
+  jobType: string;
 };
