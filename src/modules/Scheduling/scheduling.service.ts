@@ -8,15 +8,35 @@ export class SchedulingService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: SchedulingDTO) {
-    if (!data.clientId || !data.professionalId || !data.jobTypeId || !data.scheduleDate) {
+    if (!data.clientId || !data.professionalId || !data.scheduleDate) {
       throw new Error('Dados do agendamento incompletos');
+    }
+
+    const clientExists = await this.prisma.client.findUnique({
+      where: {
+        id: data.clientId,
+      },
+    });
+
+    if (!clientExists) {
+      throw new Error('Cliente não encontrado');
+    }
+
+    const professionalExists = await this.prisma.professional.findUnique({
+      where: {
+        id: data.professionalId,
+      },
+    });
+
+    if (!professionalExists) {
+      throw new Error('Profissional não encontrado');
     }
 
     const schedulingExists = await this.prisma.scheduling.findFirst({
       where: {
         clientId: data.clientId,
         professionalId: data.professionalId,
-        jobTypeId: data.jobTypeId,
+        jobType: professionalExists.jobType,
         scheduleDate: data.scheduleDate,
       },
     });
@@ -29,7 +49,7 @@ export class SchedulingService {
       data: {
         clientId: data.clientId,
         professionalId: data.professionalId,
-        jobTypeId: data.jobTypeId,
+        jobType: professionalExists.jobType,
         scheduleDate: data.scheduleDate,
       },
     });
@@ -42,7 +62,6 @@ export class SchedulingService {
       include: {
         client: true,
         professional: true,
-        jobType: true
       }
     });
   }
