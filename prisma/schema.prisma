@@ -25,7 +25,7 @@ model Professional {
   user          User          @relation("ProfessionalUser", fields: [userId], references: [id])
   userId        Int           @unique
   profession    String
-  jobTypes      JobType[]     @relation("ProfessionalJobType")
+  jobType      String?
   schedules     Scheduling[]  @relation("ProfessionalScheduling")
 }
 
@@ -36,21 +36,13 @@ model Client {
   schedules     Scheduling[]  @relation("ClientScheduling")
 }
 
-model JobType {               // Nome mais semântico, facilita a leitura e documentação
-  id            Int           @id @default(autoincrement())
-  name          String
-  professionals Professional[] @relation("ProfessionalJobType")
-  schedules     Scheduling[]
-}
-
 model Scheduling {
   id             Int          @id @default(autoincrement())
   professional   Professional @relation("ProfessionalScheduling", fields: [professionalId], references: [id])
   professionalId Int
   client         Client       @relation("ClientScheduling", fields: [clientId], references: [id])
   clientId       Int
-  jobType        JobType      @relation(fields: [jobTypeId], references: [id])
-  jobTypeId      Int
+  jobType        String
   scheduleDate   DateTime
   schedulingDate DateTime     @default(now())
   status         Int          @default(0) // 0 - Agendado, 1 - Realizado | Não há enum para SQLite
