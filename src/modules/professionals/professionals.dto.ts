@@ -1,7 +1,9 @@
 /* eslint-disable */
 export type ProfessionalsDTO = {
-  id: string;
-  nameProfessional: string;
+  userId: number;
   profession: string;
-  types: [];
+};
+
+export type UpdateProfessionalJobTypesDTO = {
+  jobType: string;
 };

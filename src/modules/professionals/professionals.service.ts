@@ -8,24 +8,31 @@ export class ProfessionalsService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: ProfessionalsDTO) {
-    const professionalExists = await this.prisma.professional.findFirst({
+    if (!data.userId) {
+      throw new Error('Usuário não informado');
+    }
+
+    if (!data.profession) {
+      throw new Error('Profissão não informada');
+    }
+
+    const userExists = await this.prisma.user.findFirst({
       where: {
-        nameProfessional: data.nameProfessional,
-        profession: data.profession,
+        id: data.userId,
       },
     });
 
-    if (professionalExists) {
-      throw new Error('Agendamento já existe!');
+    if (!userExists) {
+      throw new Error('Usuário não encontrado');
     }
 
-    if (!data.nameProfessional || !data.profession) {
-      throw new Error('Dados do Profissional incompletos!');
+    if (userExists.role != 2) {
+      throw new Error('Usuário não é um profissional');
     }
 
     const professional = await this.prisma.professional.create({
       data: {
-        nameProfessional: data.nameProfessional,
+        userId: data.userId,
         profession: data.profession,
       },
     });
@@ -35,5 +42,20 @@ export class ProfessionalsService {
 
   async findAll() {
     return this.prisma.professional.findMany();
+  }
+
+  async updateJobTypes(professionalId: number, jobType: string) {
+    if (!professionalId || !jobType) {
+      throw new Error('Dados inválidos');
+    }
+
+    const professional = await this.prisma.professional.update({
+      where: { id: professionalId },
+      data: {
+        jobType: jobType,
+      },
+    });
+
+    return professional;
   }
 }

@@ -6,43 +6,44 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
-}
-
-model Professional {
-  id Int @id @default(autoincrement())
-  nameProfessional String 
-  profession String
-  @@map("professionals")
+  url      = "file:./dev.db"
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String @unique
-  email String
-  phone String
+  id            Int           @id @default(autoincrement())
+  name          String
+  email         String
+  phone         String
+  legalId       String        // CPF ou CNPJ
+  role          Int           // 1 - client, 2 - professional | Não há enum para SQLite
+  professional  Professional? @relation("ProfessionalUser")
+  client        Client?       @relation("ClientUser")
+}
+
+model Professional {
+  id            Int           @id @default(autoincrement())
+  user          User          @relation("ProfessionalUser", fields: [userId], references: [id])
+  userId        Int           @unique
+  profession    String
+  jobType      String?
+  schedules     Scheduling[]  @relation("ProfessionalScheduling")
 }
 
 model Client {
-  id Int @id @default(autoincrement())
-  name String @unique
-  email String
-  phone String
-}
-
-model Scheduling_adm{
-id Int @id @default(autoincrement())
-name String @unique
-clients String
-scheduling_day String
-available_times String
+  id            Int           @id @default(autoincrement())
+  user          User          @relation("ClientUser", fields: [userId], references: [id])
+  userId        Int           @unique
+  schedules     Scheduling[]  @relation("ClientScheduling")
 }
 
 model Scheduling {
-id Int @id @default(autoincrement())
-profissional String
-type String
-client String 
-date String
-hour String      
+  id             Int          @id @default(autoincrement())
+  professional   Professional @relation("ProfessionalScheduling", fields: [professionalId], references: [id])
+  professionalId Int
+  client         Client       @relation("ClientScheduling", fields: [clientId], references: [id])
+  clientId       Int
+  jobType        String
+  scheduleDate   DateTime
+  schedulingDate DateTime     @default(now())
+  status         Int          @default(0) // 0 - Agendado, 1 - Realizado | Não há enum para SQLite
 }
