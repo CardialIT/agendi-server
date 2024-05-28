@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
-import { UserDTO } from 'src/modules/user/user.dto';
+import { UserDTO, UserLoginDTO } from 'src/modules/user/user.dto';
 
 @Injectable()
 export class UserService {
@@ -40,5 +40,33 @@ export class UserService {
 
     async findAll() {
         return this.prisma.user.findMany();
+    }
+
+    async findByEmail(data: UserLoginDTO) {
+        const user = await this.prisma.user.findFirst({
+            where: {
+                email: data.email,
+            },
+        });
+
+        return this.findUserRoleId(user);
+    }
+
+    async findUserRoleId(data: UserDTO) {
+        const user = await this.prisma.user.findFirst({
+            where: {
+                email: data.email,
+            },
+            include: {
+                client: true,
+                professional: true
+            }
+        });
+
+        if (user.client !== null) {
+            return user.client.id
+        } else {
+            return user.professional.id
+        }
     }
 }
