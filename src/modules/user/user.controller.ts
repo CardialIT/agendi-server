@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserDTO } from 'src/modules/user/user.dto';
+import { UserDTO, UserLoginDTO } from 'src/modules/user/user.dto';
 
 @Controller('users')
 export class UserController {
@@ -14,5 +14,10 @@ export class UserController {
     @Get('/listAll')
     async listAll() {
         return this.userService.findAll();
+    }
+
+    @Get('/findByEmail')
+    async findByEmail(@Body() data: UserLoginDTO) {
+        return this.userService.findByEmail(data);
     }
 }
